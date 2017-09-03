@@ -19,8 +19,20 @@ public void addRight(E value){
   this.right = new TreeNode<E>(value,this);
 }
 
-public E getLeft(){
-  return this.left.value;
+public E getValue(){
+  return this.value;
+}
+
+public TreeNode<E> getLeft(){
+  return this.left;
+}
+
+public TreeNode<E> getRight(){
+  return this.right;
+}
+
+public void visit(){
+  System.out.println(this.value);
 }
 
 }
