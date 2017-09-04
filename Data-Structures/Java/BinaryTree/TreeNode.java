@@ -1,4 +1,4 @@
-public class TreeNode<E>{
+public class TreeNode<E  extends Comparable<E>>{
 
 
 private E value;

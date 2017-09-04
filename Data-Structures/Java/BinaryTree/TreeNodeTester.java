@@ -15,7 +15,7 @@ public class TreeNodeTester{
     System.out.println("-----------------------------------");
     System.out.println("My binary tree's pre order traversal");
 
-    BinaryTree<Integer> myBTree = new BinaryTree<Integer>();
+    BinarySearchTree<Integer> myBTree = new BinarySearchTree<Integer>();
 
     myBTree.root = myTreeNode;
     myBTree.preOrder();
@@ -34,6 +34,30 @@ public class TreeNodeTester{
     System.out.println("My binary tree's level order traversal");
 
     myBTree.levelOrder();
+
+   System.out.println("-----------------------------------");
+   System.out.println("stuff that exists");
+   System.out.println();
+   System.out.println("searching for element " + "0");
+   myBTree.search(0);
+   System.out.println("searching for element " + "1");
+   myBTree.search(1);
+   System.out.println("searching for element " + "2");
+   myBTree.search(2);
+   System.out.println("searching for element " + "3");
+   myBTree.search(3);
+   System.out.println("-----------------------------------");
+   System.out.println("stuff that doesn't exist");
+   System.out.println();
+   System.out.println("searching for element " + "4");
+   myBTree.search(4);
+   System.out.println("searching for element " + "5");
+   myBTree.search(5);
+   System.out.println("searching for element " + "-1");
+   myBTree.search(-1);
+
+
+
 
   }
 }
