@@ -22,4 +22,34 @@ public class BinarySearchTree<E extends Comparable<E>> extends BinaryTree<E>{
     }
   }
 
+  public void insert(E value){
+
+    TreeNode<E> curr = root;
+    boolean inserted = false;
+
+    while(!inserted){
+      if(value.compareTo(curr.getValue())<0){
+        if(curr.getLeft()==null){
+          curr.addLeft(value);
+          inserted=true;
+        }else{
+          curr = curr.getLeft();
+        }
+      }else if(value.compareTo(curr.getValue())>0){
+        if(curr.getRight()==null){
+          curr.addRight(value);
+          inserted=true;
+        }else{
+          curr = curr.getRight();
+        }
+      }else{
+        //do nothing
+        System.out.println("Element already exists");
+        return;
+      }
+    }
+
+    return;
+  }
+
 }

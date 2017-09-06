@@ -56,6 +56,17 @@ public class TreeNodeTester{
    System.out.println("searching for element " + "-1");
    myBTree.search(-1);
 
+   System.out.println("-----------------------------------");
+   System.out.println("Inserting element 5");
+   myBTree.insert(5);
+   System.out.println("searching for element " + "5");
+   myBTree.search(5);
+
+   System.out.println("-----------------------------------");
+   System.out.println("My binary tree's in order traversal after inserting 5");
+
+   myBTree.inOrder();
+
 
 
 
