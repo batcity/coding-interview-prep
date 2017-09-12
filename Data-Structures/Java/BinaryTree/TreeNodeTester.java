@@ -68,6 +68,38 @@ public class TreeNodeTester{
    myBTree.inOrder();
 
 
+   System.out.println("-----------------------------------");
+   System.out.println("Inserting element 4");
+   myBTree.insert(4);
+
+   System.out.println("-----------------------------------");
+   System.out.println("Inserting element 6");
+   myBTree.insert(6);
+
+   System.out.println("-----------------------------------");
+   System.out.println("deleting element 5");
+   myBTree.delete(5);
+   System.out.println("searching for element " + "5");
+   myBTree.search(5);
+
+   System.out.println("-----------------------------------");
+   System.out.println("My binary tree's in order traversal after deleting 5");
+
+   myBTree.inOrder();
+
+   System.out.println("-----------------------------------");
+   System.out.println("deleting element 2");
+   myBTree.delete(2);
+
+   System.out.println("-----------------------------------");
+   System.out.println("deleting element 1");
+   myBTree.delete(1);
+
+   System.out.println("-----------------------------------");
+   System.out.println("My binary tree's in order traversal after deleting 1");
+
+   myBTree.inOrder();
+
 
 
   }

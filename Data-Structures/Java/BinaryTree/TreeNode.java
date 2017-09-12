@@ -12,10 +12,20 @@ public TreeNode(E value,TreeNode<E> parent){
 }
 
 public void addLeft(E value){
+
+  if(value==null){
+    this.left = null;
+    return;
+  }
   this.left = new TreeNode<E>(value,this);
 }
 
 public void addRight(E value){
+
+  if(value==null){
+    this.right = null;
+    return;
+  }
   this.right = new TreeNode<E>(value,this);
 }
 
@@ -33,6 +43,14 @@ public TreeNode<E> getRight(){
 
 public void visit(){
   System.out.println(this.value);
+}
+
+public boolean isLeaf(){
+  if((this.left==null) && (this.right==null)){
+    return true;
+  }
+
+  return false;
 }
 
 }
