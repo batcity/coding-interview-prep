@@ -93,6 +93,8 @@ public class BinarySearchTree<E extends Comparable<E>> extends BinaryTree<E>{
 
         if(node==root){
           root = null;
+          System.out.println("Element " + value + " deleted");
+          return;
         }
 
         if(value.compareTo(parent.getValue())>0) {
@@ -108,6 +110,8 @@ public class BinarySearchTree<E extends Comparable<E>> extends BinaryTree<E>{
 
       if(node==root){
         root = root.getRight();
+        System.out.println("Element " + value + " deleted");
+        return;
       }
 
       if(value.compareTo(parent.getValue())>0) parent.addRight(node.getRight());
@@ -118,6 +122,8 @@ public class BinarySearchTree<E extends Comparable<E>> extends BinaryTree<E>{
 
       if(node==root){
         root = root.getLeft();
+        System.out.println("Element " + value + " deleted");
+        return;
       }
 
       if(value.compareTo(parent.getValue())>0) parent.addRight(node.getLeft());
