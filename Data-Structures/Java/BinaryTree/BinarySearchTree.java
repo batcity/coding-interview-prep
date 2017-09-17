@@ -64,7 +64,6 @@ public class BinarySearchTree<E extends Comparable<E>> extends BinaryTree<E>{
   }
 
 
-  // only deletes leaf nodes for now
   private void delete(E value,TreeNode<E> node){
 
     if(node==null){
