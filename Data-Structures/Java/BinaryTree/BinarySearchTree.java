@@ -28,16 +28,23 @@ public class BinarySearchTree<E extends Comparable<E>> extends BinaryTree<E>{
     boolean inserted = false;
 
     while(!inserted){
-      if(value.compareTo(curr.getValue())<0){
+
+      if(root==null){
+          TreeNode<E> newNode = new TreeNode<E>(value,null);
+          root = newNode;
+          inserted=true;
+      }else if(value.compareTo(curr.getValue())<0){
         if(curr.getLeft()==null){
-          curr.addLeft(value);
+          TreeNode<E> newNode = new TreeNode<E>(value,curr);
+          curr.addLeft(newNode);
           inserted=true;
         }else{
           curr = curr.getLeft();
         }
       }else if(value.compareTo(curr.getValue())>0){
         if(curr.getRight()==null){
-          curr.addRight(value);
+          TreeNode<E> newNode = new TreeNode<E>(value,curr);
+          curr.addRight(newNode);
           inserted=true;
         }else{
           curr = curr.getRight();
@@ -74,19 +81,23 @@ public class BinarySearchTree<E extends Comparable<E>> extends BinaryTree<E>{
       }
       parent = node;
       if(value.compareTo(node.getValue())<0){
-        System.out.println("going left");
         node = node.getLeft();
       }
       else{
         node = node.getRight();
-        System.out.println("going right");
       }
     }
 
     // case where node to be deleted is a leaf node
 
     if(node.getValue()==value && node.isLeaf()){
-        if(value.compareTo(parent.getValue())>0) parent.addRight(null);
+
+        if(node==root){
+          root = null;
+        }
+
+        if(value.compareTo(parent.getValue())>0) {
+          parent.addRight(null);}
         else parent.addLeft(null);
         System.out.println("Element " + value + " deleted");
         return;
@@ -95,20 +106,63 @@ public class BinarySearchTree<E extends Comparable<E>> extends BinaryTree<E>{
     // case where node to be deleted has only one child
 
     if(node.getLeft()==null){
-      if(value.compareTo(parent.getValue())>0) parent.addRight(node.getRight().getValue());
-      else parent.addLeft(node.getRight().getValue());
+
+      if(node==root){
+        root = root.getRight();
+      }
+
+      if(value.compareTo(parent.getValue())>0) parent.addRight(node.getRight());
+      else parent.addLeft(node.getRight());
       System.out.println("Element " + value + " deleted");
       return;
     }else if(node.getRight()==null){
-      if(value.compareTo(parent.getValue())>0) parent.addRight(node.getLeft().getValue());
-      else parent.addLeft(node.getLeft().getValue());
+
+      if(node==root){
+        root = root.getLeft();
+      }
+
+      if(value.compareTo(parent.getValue())>0) parent.addRight(node.getLeft());
+      else parent.addLeft(node.getLeft());
       System.out.println("Element " + value + " deleted");
       return;
     }else {
-    System.out.println("Element " + value + " is the exceptional case with two child nodes");
+    // case where node to be deleted has two children
+
+    E minChild = findMinChild(node.getRight());
+
+    if(node==root){
+      TreeNode<E> replacement = new TreeNode<E>(minChild,null);
+      root = replacement;
+      delete(minChild,node);
+      replacement.addRight(node.getRight());
+      replacement.addLeft(node.getLeft());
+    }
+    else if(value.compareTo(parent.getValue())>0) {
+      TreeNode<E> replacement = new TreeNode<E>(minChild,parent);
+      parent.addRight(replacement);
+      delete(minChild,node);
+      replacement.addRight(node.getRight());
+      replacement.addLeft(node.getLeft());
+    }else{
+      TreeNode<E> replacement = new TreeNode<E>(minChild,parent);
+      parent.addLeft(replacement);
+      delete(minChild,node);
+      replacement.addRight(node.getRight());
+      replacement.addLeft(node.getLeft());
+    }
+
+    System.out.println("Element " + value + " deleted");
     return;
   }
 
+  }
+
+  private E findMinChild(TreeNode<E> node){
+    while(node.getLeft()!=null){
+      node = node.getLeft();
+    }
+
+    return node.getValue();
   }
 
 }

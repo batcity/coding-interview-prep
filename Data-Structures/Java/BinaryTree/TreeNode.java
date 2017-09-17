@@ -11,22 +11,22 @@ public TreeNode(E value,TreeNode<E> parent){
   this.parent = parent;
 }
 
-public void addLeft(E value){
+public void addLeft(TreeNode<E> value){
 
   if(value==null){
     this.left = null;
     return;
   }
-  this.left = new TreeNode<E>(value,this);
+  this.left = value;
 }
 
-public void addRight(E value){
+public void addRight(TreeNode<E> value){
 
   if(value==null){
     this.right = null;
     return;
   }
-  this.right = new TreeNode<E>(value,this);
+  this.right = value;
 }
 
 public E getValue(){

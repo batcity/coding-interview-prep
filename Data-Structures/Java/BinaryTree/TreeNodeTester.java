@@ -3,21 +3,20 @@ public class TreeNodeTester{
 
   public static void main(String args[]){
 
-    TreeNode<Integer> myTreeNode = new TreeNode<Integer>(2,null);
 
-    myTreeNode.addLeft(1);
-    myTreeNode.addRight(3);
-    System.out.println("my treenode's value is: " + myTreeNode.getValue());
-    System.out.println("The left node of my tree node is: " + myTreeNode.getLeft().getValue());
-    System.out.println("The right node of my tree node is: " + myTreeNode.getRight().getValue());
-    myTreeNode.getLeft().addLeft(0);
+    BinarySearchTree<Integer> myBTree = new BinarySearchTree<Integer>();
+
+    System.out.println("Inserting element 2,1,3 and 0");
+    myBTree.insert(2);
+    myBTree.insert(1);
+    myBTree.insert(3);
+    myBTree.insert(0);
+
 
     System.out.println("-----------------------------------");
     System.out.println("My binary tree's pre order traversal");
 
-    BinarySearchTree<Integer> myBTree = new BinarySearchTree<Integer>();
 
-    myBTree.root = myTreeNode;
     myBTree.preOrder();
 
     System.out.println("-----------------------------------");
@@ -92,6 +91,10 @@ public class TreeNodeTester{
    myBTree.delete(2);
 
    System.out.println("-----------------------------------");
+   System.out.println("My binary tree's in order traversal after deleting 2");
+   myBTree.inOrder();
+
+   System.out.println("-----------------------------------");
    System.out.println("deleting element 1");
    myBTree.delete(1);
 
@@ -99,6 +102,11 @@ public class TreeNodeTester{
    System.out.println("My binary tree's in order traversal after deleting 1");
 
    myBTree.inOrder();
+
+   System.out.println("-----------------------------------");
+   System.out.println("My binary tree's level order traversal after all deletions");
+
+   myBTree.levelOrder();
 
 
 
