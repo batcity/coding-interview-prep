@@ -2,22 +2,24 @@ import java.util.*;
 
 public class FixedMultiStack{
 
-  Integer[] stackArray;
-  int stackSize;
-  int[] stackCounts = new int[4];
+  private Integer[] stackArray;
+  private int totalSize;
+  private int[] stackCounts = new int[4];
 
+  // The constructor accepts the individual stack size
   public FixedMultiStack(int stackSize){
-    this.stackSize = stackSize;
-    stackArray = new Integer[stackSize];
+    this.totalSize = stackSize * 3;
+    stackArray = new Integer[totalSize];
   }
 
   public void push (int value,int stackNum){
 
     if(isFull(stackNum)){
+      //TODO: Maybe implement full stack exception
       throw new RuntimeException("stack is full");
     }
 
-    int startIndex = (stackNum - 1) * stackSize/3;//stackSize - (stackSize/stackNum);
+    int startIndex = (stackNum - 1) * totalSize/3;//totalSize - (totalSize/stackNum);
     int index = stackCounts[stackNum] + startIndex;
     // System.out.println("index pushed is" + index);
     stackArray[index] = value;
@@ -31,7 +33,8 @@ public class FixedMultiStack{
       return 0;
     }
 
-    int startIndex = (stackNum - 1) * stackSize/3; //stackSize - (stackSize/stackNum);
+    //TODO: This block is repeated multiple times, create a reusable method for it.
+    int startIndex = (stackNum - 1) * totalSize/3; //totalSize - (totalSize/stackNum);
     int index = stackCounts[stackNum] + startIndex - 1;
     // System.out.println("index popped is " + index);
     int value = stackArray[index];
@@ -47,7 +50,7 @@ public class FixedMultiStack{
       return null;
     }
 
-    int startIndex = (stackNum - 1) * stackSize/3;
+    int startIndex = (stackNum - 1) * totalSize/3;
     int index = stackCounts[stackNum] + startIndex - 1;
     return stackArray[index];
 
@@ -55,7 +58,7 @@ public class FixedMultiStack{
 
   private boolean isFull(int stackNum){
 
-    if(stackCounts[stackNum]==(stackSize)/3){
+    if(stackCounts[stackNum]==(totalSize)/3){
       return true;
     }
 
