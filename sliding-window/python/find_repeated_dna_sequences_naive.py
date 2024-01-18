@@ -1,6 +1,5 @@
 def find_repeated_sequences(s, k):
 
-    # Replace this placeholder return statement with your code
     initial_string = s[0:k]
     # print(initial_string)
     dna_set = set()
