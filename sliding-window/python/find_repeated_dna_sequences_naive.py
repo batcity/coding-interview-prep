@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 def find_repeated_sequences(s, k):
 
     initial_string = s[0:k]
@@ -9,7 +11,7 @@ def find_repeated_sequences(s, k):
     current_index = 1;
     end_index = k + 1;
 
-    while(end_index < len(s)):
+    while(end_index <= len(s)):
         new_string = s[current_index:end_index]
         # print("here's the new string: " + new_string)
         if new_string in dna_set:
