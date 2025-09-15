@@ -31,12 +31,7 @@ class Trie {
                 continue;
             }
 
-            if(index == word.length()) {
-                tempRoot.children.put(element, new TrieNode(true));
-            } else {
-                tempRoot.children.put(element, new TrieNode(false));
-            }
-
+            tempRoot.children.put(element, new TrieNode(false));
             tempRoot = tempRoot.children.get(element);
         }
 
