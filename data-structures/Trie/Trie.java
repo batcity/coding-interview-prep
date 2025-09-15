@@ -21,11 +21,9 @@ class Trie {
     public void insert(String word) {
 
         TrieNode tempRoot = root;
-        int index = 0;
 
         for(Character element: word.toCharArray()) {
 
-            index++;
             if(tempRoot.children.containsKey(element)) {
                 tempRoot = tempRoot.children.get(element);
                 continue;
