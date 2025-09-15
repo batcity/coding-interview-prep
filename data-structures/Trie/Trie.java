@@ -28,11 +28,6 @@ class Trie {
             index++;
             if(tempRoot.children.containsKey(element)) {
                 tempRoot = tempRoot.children.get(element);
-
-                if(index == word.length()) {
-                    tempRoot.isEndOfWord = true;
-                }
-
                 continue;
             }
 
@@ -40,9 +35,12 @@ class Trie {
                 tempRoot.children.put(element, new TrieNode(true));
             } else {
                 tempRoot.children.put(element, new TrieNode(false));
-                tempRoot = tempRoot.children.get(element);
             }
+
+            tempRoot = tempRoot.children.get(element);
         }
+
+        tempRoot.isEndOfWord = true;
     }
     
     public boolean search(String word) {
@@ -81,7 +79,7 @@ class Trie {
 
         return true;
     }
-    
+
     public static void main(String args[]) {
       Trie trie = new Trie();
 
