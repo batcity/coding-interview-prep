@@ -50,11 +50,7 @@ class Trie {
             }
         }
 
-        if(!tempRoot.isEndOfWord) {
-            return false;
-        }
-
-        return true;
+        return tempRoot.isEndOfWord;
     }
     
     public boolean startsWith(String prefix) {
