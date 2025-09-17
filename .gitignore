@@ -1,0 +1,33 @@
+# === Java ===
+*.class
+*.jar
+*.war
+*.ear
+*.iml
+*.log
+
+# Build directories
+/bin/
+/out/
+/target/
+/build/
+
+# === Python ===
+__pycache__/
+/*.py[cod]
+*.pyo
+*.pyd
+*.egg
+*.egg-info/
+dist/
+.eggs/
+
+# === IDEs & Editors ===
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# === OS Files ===
+.DS_Store
+Thumbs.db
