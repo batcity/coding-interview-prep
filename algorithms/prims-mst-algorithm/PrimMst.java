@@ -1,4 +1,5 @@
 import java.util.*;
+
 public class PrimMst {
     public static void main(String[] args) {
       
@@ -12,8 +13,16 @@ public class PrimMst {
       t.primMST(graph);
   }
   
-  public class MST {
+  public static class MST {
     
+    public MST() {
+      return;
+    }
+
+
+    public void primMST(int[][] graph) {
+      System.out.println(graph);
+    }
     
   }
 }
