@@ -9,7 +9,6 @@ class Solution {
 
         // step 1: flatten the board so I don't have to think about which direction to move
         // when I start BFS
-        int start = 0;
         int destination = (n * n) - 1;
 
         int[] flattenedGraph = new int[n * n];
@@ -22,7 +21,7 @@ class Solution {
 
             if(flip) {
                 for(int k=n-1; k>-1; k--) {
-                    System.out.println("modifying: " + index + "," + k);
+                    // System.out.println("modifying: " + index + "," + k);
                     flattenedGraph[flattenedGraphIndex] = board[index][k];
                     flattenedGraphIndex++;
                 }
@@ -30,11 +29,12 @@ class Solution {
                 flip = false;
             } else {
                 for(int c=0; c<n; c++) {
-                    System.out.println("modifying: " + index + "," + c);
+                    // System.out.println("modifying: " + index + "," + c);
                     flattenedGraph[flattenedGraphIndex] = board[index][c];
                     flattenedGraphIndex++;
                 }
-                flip = true; 
+
+                flip = true;
             }
                
             index--;
@@ -42,6 +42,60 @@ class Solution {
 
         // Arrays.stream(flattenedGraph).forEach(x -> System.out.println(x));
 
-        return -1;
+        // step 2: Do BFS graph traversal to figure out the least Dice rolls
+        int leastDiceRolls = bfs(flattenedGraph, destination);
+        
+        return leastDiceRolls;
+    }
+
+
+    int bfs(int[] flattenedGraph, int destination) {
+
+        int num_moves = 0;
+        int currentPosition = 0;
+
+        LinkedList<Integer> nodeQueue = new LinkedList<>();
+        nodeQueue.add(currentPosition);
+
+        while(true) {
+
+            LinkedList<Integer> tempQueue = new LinkedList<>();
+
+            while(!nodeQueue.isEmpty()) {
+
+                currentPosition = nodeQueue.remove();
+
+                if(currentPosition == destination) {
+                    return num_moves;
+                }
+
+                for(int i=1; i<7;i++) {
+
+                    int newPosition = currentPosition + i;
+
+                    if(newPosition > destination) {
+                        break;
+                    }
+
+                    if(flattenedGraph[newPosition]!=-1) {
+                        nodeQueue.add(flattenedGraph[newPosition]);
+                        continue;
+                    }
+
+                    tempQueue.add(currentPosition + i);
+                }
+            }
+
+            if(tempQueue.isEmpty()) {
+                break;
+            }
+
+            nodeQueue.addAll(tempQueue);
+            num_moves++;
+
+            System.out.println("num moves is: " + num_moves);
+        }
+
+        return num_moves;
     }
 }
