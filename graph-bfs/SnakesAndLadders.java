@@ -55,6 +55,7 @@ class Solution {
         int currentPosition = 0;
 
         LinkedList<Integer> nodeQueue = new LinkedList<>();
+        Set<Integer> visitedNodes = new HashSet<>();
         nodeQueue.add(currentPosition);
 
         while(true) {
@@ -64,6 +65,13 @@ class Solution {
             while(!nodeQueue.isEmpty()) {
 
                 currentPosition = nodeQueue.remove();
+
+                if(visitedNodes.contains(currentPosition)) {
+                    continue;
+                }
+
+                // System.out.println("currentPosition: " + currentPosition);
+                // System.out.println("num_moves: " + num_moves);
 
                 if(currentPosition == destination) {
                     return num_moves;
@@ -78,7 +86,7 @@ class Solution {
                     }
 
                     if(flattenedGraph[newPosition]!=-1) {
-                        nodeQueue.add(flattenedGraph[newPosition]);
+                        tempQueue.add(flattenedGraph[newPosition]-1);
                         continue;
                     }
 
@@ -90,12 +98,13 @@ class Solution {
                 break;
             }
 
-            nodeQueue.addAll(tempQueue);
-            num_moves++;
+            // System.out.println("do i make it here?");
 
-            System.out.println("num moves is: " + num_moves);
+            nodeQueue.addAll(tempQueue);
+            visitedNodes.add(currentPosition);
+            num_moves++;
         }
 
-        return num_moves;
+        return -1;
     }
 }
