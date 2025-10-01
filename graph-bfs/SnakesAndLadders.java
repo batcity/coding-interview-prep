@@ -41,7 +41,6 @@ class Solution {
         }
 
         // Arrays.stream(flattenedGraph).forEach(x -> System.out.println(x));
-
         // step 2: Do BFS graph traversal to figure out the least Dice rolls
         int leastDiceRolls = bfs(flattenedGraph, destination);
         
@@ -66,10 +65,6 @@ class Solution {
 
                 currentPosition = nodeQueue.remove();
 
-                if(visitedNodes.contains(currentPosition)) {
-                    continue;
-                }
-
                 // System.out.println("currentPosition: " + currentPosition);
                 // System.out.println("num_moves: " + num_moves);
 
@@ -78,19 +73,20 @@ class Solution {
                 }
 
                 for(int i=1; i<7;i++) {
-
                     int newPosition = currentPosition + i;
 
                     if(newPosition > destination) {
                         break;
                     }
 
-                    if(flattenedGraph[newPosition]!=-1) {
-                        tempQueue.add(flattenedGraph[newPosition]-1);
-                        continue;
+                    if (flattenedGraph[newPosition] != -1) {
+                        newPosition = flattenedGraph[newPosition] - 1;
                     }
 
-                    tempQueue.add(currentPosition + i);
+                    if (!visitedNodes.contains(newPosition)) {
+                        visitedNodes.add(newPosition);   // mark when enqueuing
+                        tempQueue.add(newPosition);
+                    }
                 }
             }
 
@@ -101,7 +97,6 @@ class Solution {
             // System.out.println("do i make it here?");
 
             nodeQueue.addAll(tempQueue);
-            visitedNodes.add(currentPosition);
             num_moves++;
         }
 
