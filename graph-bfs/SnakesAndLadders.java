@@ -49,57 +49,42 @@ class Solution {
 
 
     int bfs(int[] flattenedGraph, int destination) {
-
         int num_moves = 0;
-        int currentPosition = 0;
+        Queue<Integer> queue = new LinkedList<>();
+        Set<Integer> visited = new HashSet<>();
+        queue.add(0);
+        visited.add(0);
 
-        LinkedList<Integer> nodeQueue = new LinkedList<>();
-        Set<Integer> visitedNodes = new HashSet<>();
-        nodeQueue.add(currentPosition);
+        while (!queue.isEmpty()) {
 
-        while(true) {
+            int size = queue.size();  // number of nodes at this BFS level
 
-            LinkedList<Integer> tempQueue = new LinkedList<>();
+            for (int s = 0; s < size; s++) {
+                int current = queue.poll();
 
-            while(!nodeQueue.isEmpty()) {
-
-                currentPosition = nodeQueue.remove();
-
-                // System.out.println("currentPosition: " + currentPosition);
-                // System.out.println("num_moves: " + num_moves);
-
-                if(currentPosition == destination) {
+                if (current == destination) {
                     return num_moves;
                 }
 
-                for(int i=1; i<7;i++) {
-                    int newPosition = currentPosition + i;
+                for (int dice = 1; dice <= 6; dice++) {
+                    int next = current + dice;
+                    if (next > destination) break;
 
-                    if(newPosition > destination) {
-                        break;
+                    if (flattenedGraph[next] != -1) {
+                        next = flattenedGraph[next] - 1;
                     }
 
-                    if (flattenedGraph[newPosition] != -1) {
-                        newPosition = flattenedGraph[newPosition] - 1;
-                    }
-
-                    if (!visitedNodes.contains(newPosition)) {
-                        visitedNodes.add(newPosition);   // mark when enqueuing
-                        tempQueue.add(newPosition);
+                    if (!visited.contains(next)) {
+                        visited.add(next);
+                        queue.add(next);
                     }
                 }
             }
 
-            if(tempQueue.isEmpty()) {
-                break;
-            }
-
-            // System.out.println("do i make it here?");
-
-            nodeQueue.addAll(tempQueue);
-            num_moves++;
+            num_moves++; // increment after processing one BFS level
         }
 
         return -1;
     }
+
 }
