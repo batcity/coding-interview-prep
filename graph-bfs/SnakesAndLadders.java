@@ -7,12 +7,10 @@ class Solution {
         
         int n = board.length;
 
-        // step 1: flatten the board so I don't have to think about which direction to move
+        // step 1: Flatten the board so I don't have to think about which direction to move
         // when I start BFS
         int destination = (n * n) - 1;
-
         int[] flattenedGraph = new int[n * n];
-
         int index = n-1;
         int flattenedGraphIndex = 0;
         boolean flip = false;
@@ -41,7 +39,7 @@ class Solution {
         }
 
         // Arrays.stream(flattenedGraph).forEach(x -> System.out.println(x));
-        // step 2: Do BFS graph traversal to figure out the least Dice rolls
+        // Step 2: Do BFS graph traversal to figure out the least Dice rolls
         int leastDiceRolls = bfs(flattenedGraph, destination);
         
         return leastDiceRolls;
@@ -86,5 +84,4 @@ class Solution {
 
         return -1;
     }
-
 }
