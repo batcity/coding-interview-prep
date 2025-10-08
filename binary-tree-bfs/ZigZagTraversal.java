@@ -2,22 +2,6 @@
 
 import java.util.*;
 
-// Status: passed 19/33 testcases -> good enough for phase 1
-
-/**
-- start at root, add the root element to the queue
-- initialize a counter
-- if current depth is even then 
-  - break out if queue is empty
-  - pull elements from the queue, add non null children to a stack from right to left, 
-  - also add pulled elements to the final output
-- if current depth is odd then
-  - break out if stack is empty
-  - pull/remove elements from the stack, add non null children to queue from left to right, 
-  - also add pulled elements to the final output
- */
-
-
 class TreeNode {
     int val;
     TreeNode left;
@@ -33,70 +17,35 @@ class TreeNode {
 
 class Solution {
     public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
+        List<List<Integer>> result = new ArrayList<>();
+        if (root == null) return result;
 
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        boolean leftToRight = true; // direction flag
 
-        int depth = 0;
-        List<List<Integer>> outputList = new ArrayList<>();
-        Queue<TreeNode> levelQueue = new LinkedList<TreeNode>();
-        Stack<TreeNode> levelStack = new Stack<TreeNode>();
-        levelQueue.add(root);
+        while (!queue.isEmpty()) {
+            int levelSize = queue.size();
+            Deque<Integer> level = new LinkedList<>();
 
-        if( root == null ) {
-            return outputList;
-        }
+            for (int i = 0; i < levelSize; i++) {
+                TreeNode node = queue.poll();
 
-        while(true) {
-
-            if(depth % 2 == 0) {
-                if(levelQueue.size() == 0) {
-                    break;
+                // Add to front or back depending on direction
+                if (leftToRight) {
+                    level.addLast(node.val);
+                } else {
+                    level.addFirst(node.val);
                 }
 
-                List<Integer> currentValues = new ArrayList<>();
-
-                while(levelQueue.size()!= 0) {
-                    TreeNode currentNode = levelQueue.poll();
-
-                    if(currentNode.left != null) {
-                        levelStack.add(currentNode.left);
-                    }
-
-                    if(currentNode.right != null) {
-                        levelStack.add(currentNode.right);
-                    }
-
-                    currentValues.add(currentNode.val);
-                }
-
-                outputList.add(currentValues);
-            } else {
-                if(levelStack.size() == 0) {
-                    break;
-                }
-
-                List<Integer> currentValues = new ArrayList<>();
-
-                while(levelStack.size() != 0) {
-                    TreeNode currentNode = levelStack.pop();
-
-                    if(currentNode.left != null) {
-                        levelQueue.add(currentNode.left);
-                    }
-
-                    if(currentNode.right != null) {
-                        levelQueue.add(currentNode.right);
-                    }
-
-                    currentValues.add(currentNode.val);
-                }
-
-                outputList.add(currentValues);
+                if (node.left != null) queue.offer(node.left);
+                if (node.right != null) queue.offer(node.right);
             }
 
-            depth++;
+            result.add(new ArrayList<>(level));
+            leftToRight = !leftToRight; // flip direction for next level
         }
-        
 
-        return outputList;
+        return result;
     }
 }
