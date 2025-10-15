@@ -1,8 +1,7 @@
 /*
 //Question: https://leetcode.com/problems/construct-quad-tree/?envType=study-plan-v2&envId=top-interview-150
-// Definition for a QuadTree node.
-*/
 
+// Definition for a QuadTree node.
 class Node {
     public boolean val;
     public boolean isLeaf;
@@ -39,6 +38,7 @@ class Node {
         this.bottomRight = bottomRight;
     }
 }
+*/
 
 class Solution {
     public Node construct(int[][] grid) {
@@ -48,6 +48,10 @@ class Solution {
 
         int n = grid.length;
         System.out.println("matrix is a " + n + " by " + n + " matrix");
+
+        // Note: start is zero here, I'm doing (end - start -1 (to account for zero based indexing))/2
+        int center = (n-1)/2;
+        System.out.println("the center of the matrix is: " + center + " by " + center);
 
 
         // the first Node represents the entire matrix and is never a leaf ofcourse
@@ -63,5 +67,27 @@ class Solution {
         // node be a leaf node
         
         return null;
+    }
+
+    private Node traverseGrid(int start, int end, int[][] grid) {
+
+        if(start == end) {
+            return null;
+        }
+
+        if(visited[start][end]) {
+            // wait something is off here, if I've visted it and it's part of another grid
+            // then I shouldn't use this node -> how do i handle this?
+            return visited[start][end];
+        }
+
+        // Note: start is zero here, I'm doing (end - start -1 (to account for zero based indexing))/2
+        int center = (end - start)/2;
+        Node topLeft = traverseGrid();
+        Node topRight = traverseGrid();
+        Node bottomleft = traverseGrid();
+        Node bottomRight = traverseGrid();
+
+        return new Node(grid[start][end], true);
     }
 }
