@@ -19,27 +19,34 @@ class Solution:
         
         node_queue = deque([root])
         output = []
+        reverse = False
 
         while node_queue:
             node_queue_size = len(node_queue)
             temp_level_arr = []
-            reverse = True
 
             for i in range(node_queue_size):
-                node = node_queue.pop()
+                if reverse: 
+                    print("picking node from end")
+                    node = node_queue.pop()
+                else:
+                    print("picking node from beginning")
+                    node = node_queue.popleft()
+                print("popped out: ", node.val)
 
                 if node.left:
-                    if reverse:
-                        node_queue.appendleft(node.left)
-                    else: 
-                        node_queue.append(node.left)
+                        if reverse:
+                            node_queue.appendleft(node.left)    
+                        else:
+                            node_queue.append(node.left)
 
-                if node.right:    
-                    if reverse:
-                        node_queue.appendleft(node.right)    
-                    else:
-                        node_queue.append(node.right)
+                if node.right: 
+                        if reverse:
+                            node_queue.appendleft(node.right)    
+                        else:
+                            node_queue.append(node.right)
 
+                # print(node_queue)
                 temp_level_arr.append(node.val)
 
             output.append(temp_level_arr)
