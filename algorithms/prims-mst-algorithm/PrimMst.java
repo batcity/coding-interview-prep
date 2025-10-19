@@ -31,6 +31,8 @@ Output: Minimum Spanning Tree (MST)
 4. Return MST
  */
 
+
+// TODO: This is a brute force version, optimise this 
 import java.util.*;
 
 public class PrimMst {
@@ -45,7 +47,6 @@ public class PrimMst {
                         { 0, 0, 0, 0, 0, 0 }   // Vertex 5 (no edges)
                     };
 
-      // get the MST represented as a list of edges
       primMST(graph);
     }
 
@@ -54,17 +55,47 @@ public class PrimMst {
       Set<Integer> treeVertices = new HashSet<>();
       Set<Integer> fringeVertices = new HashSet<>();
       int vertexCount = graph.length;
-      int[] vertices = java.util.stream.IntStream.range(0, vertexCount).toArray();
-      // java.util.Arrays.stream(vertices).forEach(System.out::println);
-      List<Edge> MST = new ArrayList<>();
+      List<Edge> mst = new ArrayList<>();
 
       treeVertices.add(0);
-
-      while(treeVertices.size()!=vertexCount) {
-        break;
+      for(int i = 1; i < vertexCount; i++){
+         fringeVertices.add(i);
       }
 
-      return MST;
+      while(treeVertices.size()!=vertexCount) {
+
+         int lowestWeight = Integer.MAX_VALUE;
+         Edge minimumEdge = null;
+
+
+         for(int treeVertex: treeVertices) {
+            for(int fringeVertex: fringeVertices) {
+
+               int weight = graph[treeVertex][fringeVertex];
+
+               if(weight == 0) {
+                  continue;
+               }
+
+               if(weight < lowestWeight) {
+                  lowestWeight = weight;
+                  minimumEdge = new Edge(treeVertex, fringeVertex, lowestWeight);
+               }
+            }
+         }
+
+         if(minimumEdge==null) {
+            System.out.println("Graph is disconnected; some vertices are unreachable.");
+            break;
+         }
+
+         mst.add(minimumEdge);
+         treeVertices.add(minimumEdge.to);
+         fringeVertices.remove(minimumEdge.to);
+         System.out.println("Edge: " + minimumEdge.from + "-" + minimumEdge.to);
+      }
+
+      return mst;
     }
 }
 
