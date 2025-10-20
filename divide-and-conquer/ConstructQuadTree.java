@@ -42,52 +42,33 @@ class Node {
 
 class Solution {
     public Node construct(int[][] grid) {
-
-        // as a first step let me figure out how to break down a matrix into four subgrids
-        // then i'll just have to recurse down the matrix -> makes sense
-
-        int n = grid.length;
-        System.out.println("matrix is a " + n + " by " + n + " matrix");
-
-        // Note: start is zero here, I'm doing (end - start -1 (to account for zero based indexing))/2
-        int center = (n-1)/2;
-        System.out.println("the center of the matrix is: " + center + " by " + center);
-
-
-        // the first Node represents the entire matrix and is never a leaf ofcourse
-
-        // This is the root node
-        // I'm setting the val to false and isLeaf = false
-        Node root = new Node(false, false);
-
-
-        // things to think about
-        // in this test case: [[0,0],[0,0]]
-        // we return: [[1,0]] -> which means the Node is a leaf node where all values are zero -> but how can the root
-        // node be a leaf node
-        
-        return null;
+        int size = grid.length;
+        return build(grid, 0, 0, size);
     }
 
-    private Node traverseGrid(int start, int end, int[][] grid) {
+    private Node build(int[][] grid, int rowStart, int colStart, int size) {
 
-        if(start == end) {
-            return null;
+        if(size == 1) {
+            boolean val = false;
+            if(grid[rowStart][colStart] == 1) {
+                val = true;
+            }
+
+            return new Node(val, true);
         }
 
-        if(visited[start][end]) {
-            // wait something is off here, if I've visted it and it's part of another grid
-            // then I shouldn't use this node -> how do i handle this?
-            return visited[start][end];
+        int half = size/2;
+        Node topLeft = build(grid, rowStart, colStart, half);
+        Node topRight = build(grid, rowStart, colStart+half, half);
+        Node bottomLeft = build(grid, rowStart+half, colStart, half);
+        Node bottomRight = build(grid, rowStart+half, colStart+half, half);
+
+        
+        if(topLeft.isLeaf && topRight.isLeaf && bottomLeft.isLeaf && bottomRight.isLeaf 
+        && topLeft.val == topRight.val && topLeft.val == bottomLeft.val && topLeft.val == bottomRight.val) {
+            return new Node(topLeft.val, true);
         }
 
-        // Note: start is zero here, I'm doing (end - start -1 (to account for zero based indexing))/2
-        int center = (end - start)/2;
-        Node topLeft = traverseGrid();
-        Node topRight = traverseGrid();
-        Node bottomleft = traverseGrid();
-        Node bottomRight = traverseGrid();
-
-        return new Node(grid[start][end], true);
+        return new Node(false, false, topLeft, topRight, bottomLeft, bottomRight);
     }
 }
