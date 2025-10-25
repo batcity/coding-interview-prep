@@ -27,26 +27,21 @@ class Solution:
 
             for i in range(node_queue_size):
                 if reverse: 
-                    print("picking node from end")
                     node = node_queue.pop()
                 else:
-                    print("picking node from beginning")
                     node = node_queue.popleft()
-                print("popped out: ", node.val)
 
-                if node.left:
-                        if reverse:
-                            node_queue.appendleft(node.left)    
-                        else:
+                if reverse: 
+                    if node.right: 
+                            node_queue.appendleft(node.right)
+                    if node.left:
+                            node_queue.appendleft(node.left)
+                else:
+                    if node.left:
                             node_queue.append(node.left)
-
-                if node.right: 
-                        if reverse:
-                            node_queue.appendleft(node.right)    
-                        else:
+                    if node.right:  
                             node_queue.append(node.right)
 
-                # print(node_queue)
                 temp_level_arr.append(node.val)
 
             output.append(temp_level_arr)
