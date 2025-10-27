@@ -1,4 +1,6 @@
 // https://leetcode.com/problems/minimum-absolute-difference-in-bst/?envType=study-plan-v2&envId=top-interview-150
+// Time complexity of the Solution = O(N) since we traverse the all the nodes in the tree once
+// Space Complexity of the Solution = O(H), where H is the height of the tree
 
 import java.util.*;
 
@@ -18,35 +20,33 @@ import java.util.*;
  * }
  */
 class Solution {
+
+    private int minDiff = Integer.MAX_VALUE;
+    private int prev = -1;
+
     public int getMinimumDifference(TreeNode root) {
 
-        // simple approach is to make a queue of all the nodes in the BST
-        // then compare each value with prev value in the queue and get the min
-        // but that's two iterations, I'm trying to figure out if there's a way to do this with one iteration
-        // no - I doubt it
+        traverseTreeInOrder(root);
+        return minDiff;
+    }
 
+    private void traverseTreeInOrder(TreeNode root) {
 
-        Queue<Integer> inorderQueue = new LinkedList<>()
+        if(root == null) {
+            return;
+        }
 
-        // previous bad solution
-        // if(root == null) {
-        //     return Integer.MAX_VALUE;
-        // }
+        traverseTreeInOrder(root.left);
+        int currentVal = root.val;
+        if(prev!=-1) {
+            int diff = currentVal - prev;
 
-        
-        // int leftDiff = Integer.MAX_VALUE;
-        // int rightDiff = Integer.MAX_VALUE;
-
-        // if(root.left != null) {
-        //     leftDiff = root.val - root.left.val;
-        // }
-
-        // if(root.right != null) {
-        //     rightDiff = root.right.val - root.val;
-        // }
-
-        // int currMin = Math.min(leftDiff, rightDiff);
-        // int min = Math.min(currMin, Math.min(getMinimumDifference(root.left), getMinimumDifference(root.right)));
-        // return min;
+            if(diff < minDiff) {
+                minDiff = diff;
+            }
+        }
+        prev = currentVal;
+        traverseTreeInOrder(root.right);
+        return;
     }
 }
