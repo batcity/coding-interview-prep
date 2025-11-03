@@ -4,67 +4,60 @@ import java.util.*;
 class Solution {
     public boolean canFinish(int numCourses, int[][] prerequisites) {
         
-        // New algorithm based on graphs:
-        // 1. make a hashmap of all the edges
-        // 2. for loop from o to n
-        // 3. add node to visited nodes
-        // 4. check hashmap and dfs through this
-        // 5. as you dfs if a node's been visited already return false, otherwise add node to visited
-        // 6. dfs through that node
+        // Building the adjacency List for the graph
+        HashMap<Integer, List<Integer>> adjacencyList = new HashMap<>();
+        adjacencyList = buildAdjacencyList(prerequisites);
 
-        // Note: this seems tedious, i feel like fast pointer show pointer should work
-        // yeah the idea is to detect cycles in the graph
-        // in a linkedlist this is easy to achieve, how would I do this in a graph
-        // okay maybe pick each node, then traverse it --> actually know I don't need every node -> I only need nodes
-        // which have an edge starting from it -> ah yes!
-        // fast pointer - 2 hops, slow pointer 1 hop -> if they meet -> then there's a circle - boom
+        HashSet<Integer> visitedNodes = new HashSet<>();
         
-        // Building a list of edges in the graph
-        HashMap<Integer, Integer> edgeList = new HashMap<Integer, Integer>();
-        edgeList = buildEdges(prerequisites);
-        
-        // don't think I need this
-        // HashSet<Integer> visitedNodes = new HashSet<Integer>();
-        
-        // dfs through each node
-        // for(int i=0; i<numCourses; i++) {
-            
-        //     if(visitedNodes.contains(i)) {
-        //         continue;
-        //     } else {
-        //         boolean hasLoop = dfs(i, edgeList, visitedNodes);
+        // dfs through each edge
+        for(Map.Entry<Integer, List<Integer>> edge: adjacencyList.entrySet()) {
 
-        //         if(hasLoop) {
-        //             return false;
-        //         }
-        //     }
-        // }
+            Integer edgeStart = edge.getKey();
+            if(visitedNodes.contains(edgeStart)) {
+                continue;
+            } else {
+                boolean hasLoop = dfs(edgeStart, adjacencyList, visitedNodes);
+
+                if(hasLoop) {
+                    return false;
+                }
+            }
+        }
         
         return true;
     }
     
-    private HashMap<Integer, Integer> buildEdges(int[][] prerequisites) {
+    private HashMap<Integer, List<Integer>> buildAdjacencyList(int[][] prerequisites) {
         
-        HashMap<Integer, Integer> edgeList = new HashMap<Integer, Integer>();
+        HashMap<Integer, List<Integer>> adjacencyList = new HashMap<>();
         
         for(int[] edge: prerequisites) {
-            edgeList.put(edge[0], edge[1]);
+            if(adjacencyList.containsKey(edge[0])) {
+                adjacencyList.get(edge[0]).add(edge[1]);
+            } else {
+                adjacencyList.put(edge[0], new ArrayList<>(List.of(edge[1])));
+            }
         }
         
-        return edgeList;
+        return adjacencyList;
     }
     
-    // private boolean dfs(int node, HashMap<Integer, Integer> edgeList,  HashSet<Integer> visitedNodes) {
+    private boolean dfs(int node, HashMap<Integer, List<Integer>> adjacencyList,  HashSet<Integer> visitedNodes) {
         
-    //     if(visitedNodes.contains(node)) {
-    //         return true;
-    //     }
+        if(visitedNodes.contains(node)) {
+            return true;
+        }
         
-    //     if(edgeList.containsKey(node)) {
-    //         visitedNodes.add(node);
-    //         return dfs(edgeList.get(node), edgeList, visitedNodes);
-    //     }
+        if(adjacencyList.containsKey(node)) {
+            visitedNodes.add(node);
+            for(Integer element: adjacencyList.get(node)) {
+                if(dfs(element, adjacencyList, visitedNodes) == true) {
+                    return true;
+                }
+            }
+        }
         
-    //     return false;
-    // }
+        return false;
+    }
 }
