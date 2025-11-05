@@ -8,20 +8,25 @@ class Solution {
         HashMap<Integer, List<Integer>> adjacencyList = new HashMap<>();
         adjacencyList = buildAdjacencyList(prerequisites);
 
-        HashSet<Integer> visitedNodes = new HashSet<>();
+        HashSet<List<Integer>> visitedEdges = new HashSet<>();
         
-        // dfs through each edge
-        for(Map.Entry<Integer, List<Integer>> edge: adjacencyList.entrySet()) {
+        // dfs through each prerequisite
+        for(int[] prerequisite: prerequisites) {
 
-            Integer edgeStart = edge.getKey();
-            if(visitedNodes.contains(edgeStart)) {
+            int edgeStart = prerequisite[0];
+            int edgeEnd = prerequisite[1];
+            if(visitedEdges.contains(Arrays.asList(edgeStart, edgeEnd))) {
                 continue;
             } else {
-                boolean hasLoop = dfs(edgeStart, adjacencyList, visitedNodes);
+                HashSet<List<Integer>> tempVisitedEdges = new HashSet<>();
+                System.out.println("going to dfs through " + edgeStart + "," + edgeEnd);
+                boolean hasLoop = dfs(edgeStart, edgeEnd, adjacencyList, tempVisitedEdges);
 
                 if(hasLoop) {
                     return false;
                 }
+
+                visitedEdges.addAll(tempVisitedEdges);
             }
         }
         
@@ -43,16 +48,18 @@ class Solution {
         return adjacencyList;
     }
     
-    private boolean dfs(int node, HashMap<Integer, List<Integer>> adjacencyList,  HashSet<Integer> visitedNodes) {
+    private boolean dfs(int edgeStart, int edgeEnd, HashMap<Integer, List<Integer>> adjacencyList,  HashSet<List<Integer>> visitedEdges) {
         
-        if(visitedNodes.contains(node)) {
+        if(visitedEdges.contains(Arrays.asList(edgeStart, edgeEnd))) {
+            System.out.println("visited " + Arrays.asList(edgeStart, edgeEnd) + " twice in this iteration");
             return true;
         }
         
-        if(adjacencyList.containsKey(node)) {
-            visitedNodes.add(node);
-            for(Integer element: adjacencyList.get(node)) {
-                if(dfs(element, adjacencyList, visitedNodes) == true) {
+        visitedEdges.add(Arrays.asList(edgeStart, edgeEnd));
+        
+        if(adjacencyList.containsKey(edgeEnd)) {
+            for(Integer newEdgeEnd: adjacencyList.get(edgeEnd)) {
+                if(dfs(edgeEnd, newEdgeEnd, adjacencyList, visitedEdges) == true) {
                     return true;
                 }
             }
