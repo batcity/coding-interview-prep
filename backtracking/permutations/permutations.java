@@ -6,28 +6,31 @@ class Solution {
     private List<List<Integer>> output = new ArrayList<>();
 
     public List<List<Integer>> permute(int[] nums) {
-        permute(nums, new ArrayList<Integer>());
+        permute(nums, new boolean[nums.length], new ArrayList<Integer>());
         return output;
     }
 
-    private void permute(int[] nums, List<Integer> currentList) {
+    private void permute(int[] nums, boolean[] visited, List<Integer> currentList) {
 
         if(currentList.size()==nums.length) {
-            output.add(currentList);
+            output.add(new ArrayList<>(currentList));
             return;
         }
 
         for(int i=0; i<nums.length; i++) {
 
             int currentElement = nums[i];
-            if(currentList.contains(currentElement)) {
+            if(visited[i]) {
                 continue;
             }
 
-            List<Integer> copiedList = new ArrayList<>();
-            copiedList.addAll(currentList);
-            copiedList.add(currentElement);
-            permute(nums, copiedList);
+            currentList.add(currentElement);
+            visited[i] = true;
+
+            permute(nums, visited, currentList);
+
+            currentList.remove(currentList.size()-1);
+            visited[i] = false;
         }
     }
 }
