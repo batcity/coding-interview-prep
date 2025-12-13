@@ -12,21 +12,26 @@ class Node:
 
 class Solution:
 
-    def construct_quad_tree(self, grid: List[List[int]], start, end, size):
+    def construct_quad_tree(self, grid: List[List[int]], start: int, end: int, size):
+
+        start = int(start)
+        end = int(end)
 
         if size == 1:
+            print("start is: ", start)
+            print("end is: ", end)
             return Node(grid[start][end], True, None, None, None, None)
 
         topLeft = self.construct_quad_tree(grid, start, start, size/2)
-        topRight = self.construct_quad_tree(grid, start, start + size, size/2)
-        bottomLeft = self.construct_quad_tree(grid, start + size, start, size/2)
-        bottomRight = self.construct_quad_tree(grid, size, size, size/2)
+        topRight = self.construct_quad_tree(grid, start, start + size-1, size/2)
+        bottomLeft = self.construct_quad_tree(grid, start + size-1, start, size/2)
+        bottomRight = self.construct_quad_tree(grid, size-1, size-1, size/2)
 
 
-        if topLeft.val == topRight.val == bottomlLeft.val == bottomRight.val:
-            return Node(grid[start][end], true, None, None, None, None)
+        if topLeft.val == topRight.val == bottomLeft.val == bottomRight.val:
+            return Node(grid[start][end], True, None, None, None, None)
 
-        return Node(grid[start][size], False, topLeft, topRight, bottomLeft, bottomRight)
+        return Node(grid[start][end], False, topLeft, topRight, bottomLeft, bottomRight)
 
     def construct(self, grid: List[List[int]]) -> 'Node':
 
