@@ -12,29 +12,32 @@ class Node:
 
 class Solution:
 
-    def construct_quad_tree(self, grid: List[List[int]], start: int, end: int, size):
-
-        start = int(start)
-        end = int(end)
+    def construct_quad_tree(self, grid: List[List[int]], row_start: int, column_start: int, size):
 
         if size == 1:
-            print("start is: ", start)
-            print("end is: ", end)
-            return Node(grid[start][end], True, None, None, None, None)
+            val = False
+            if grid[row_start][column_start]==1:
+                val = True
+                
+            return Node(val, True, None, None, None, None)
 
-        topLeft = self.construct_quad_tree(grid, start, start, size/2)
-        topRight = self.construct_quad_tree(grid, start, start + size-1, size/2)
-        bottomLeft = self.construct_quad_tree(grid, start + size-1, start, size/2)
-        bottomRight = self.construct_quad_tree(grid, size-1, size-1, size/2)
+        half = int(size/2)
+        topLeft = self.construct_quad_tree(grid, row_start, column_start, half)
+        topRight = self.construct_quad_tree(grid, row_start, column_start+half, half)
+        bottomLeft = self.construct_quad_tree(grid, row_start+half, column_start, half)
+        bottomRight = self.construct_quad_tree(grid, row_start+half, column_start+half, half)
+        
+        if (
+            topLeft.isLeaf and topRight.isLeaf and
+            bottomLeft.isLeaf and bottomRight.isLeaf and
+            topLeft.val == topRight.val == bottomLeft.val == bottomRight.val
+        ):
+            return Node(topLeft.val, True, None, None, None, None)
 
-
-        if topLeft.val == topRight.val == bottomLeft.val == bottomRight.val:
-            return Node(grid[start][end], True, None, None, None, None)
-
-        return Node(grid[start][end], False, topLeft, topRight, bottomLeft, bottomRight)
+        return Node(True, False, topLeft, topRight, bottomLeft, bottomRight)
 
     def construct(self, grid: List[List[int]]) -> 'Node':
 
-        start = 0
-        end = len(grid) - 1
-        return self.construct_quad_tree(grid, start, end, len(grid))
+        row_start = 0
+        column_start = 0
+        return self.construct_quad_tree(grid, row_start, column_start, len(grid))
