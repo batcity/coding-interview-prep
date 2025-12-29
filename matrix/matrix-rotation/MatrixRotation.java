@@ -3,21 +3,31 @@
 class Solution {
     public void rotate(int[][] matrix) {
 
-        // Alright - it seems like the solution is to traspose the matrix - then reverse the rows
-        // I don't quite understand what reversing rows mean
-
-        // but transposing the matrix is basically -> rows become columns and columns become rows
+        // Alright - it seems like the solution is to traspose the matrix, then reverse the rows
 
         int size = matrix.length;
 
-        // traspose the matrix
+        // transposing the matrix is basically -> rows become columns and columns become rows
         for(int i=0;i<size;i++) {
-            // TODO: figure out why this starts at i+1
             for(int j=i+1;j<size;j++) {
                 int temp = matrix[i][j];
                 matrix[i][j] = matrix[j][i];
                 matrix[j][i] = temp;
             }   
+        }
+
+        // reverse the rows
+        for(int[] row: matrix) {
+            int start = 0;
+            int end = size-1;
+
+            while(end > start) {
+                int temp = row[end];
+                row[end] = row[start];
+                row[start] = temp;
+                end--;
+                start++;
+            }
         }
     }
 }
