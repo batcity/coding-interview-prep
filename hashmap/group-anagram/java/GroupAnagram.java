@@ -14,14 +14,13 @@ class Solution {
 
             if(wordsByCharCount.containsKey(charCountMap)) {
                 wordsByCharCount.get(charCountMap).add(str);
+
                 // System.out.println("this map exists");
             } else {
-                wordsByCharCount.put(charCountMap, new ArrayList<>(List.of(str)));
+                var newList = new ArrayList<>(List.of(str));
+                wordsByCharCount.put(charCountMap, newList);
+                outputList.add(newList);
             }
-        }
-
-        for(String charCountMap : wordsByCharCount.keySet()) {
-            outputList.add(wordsByCharCount.get(charCountMap));
         }
 
         return outputList;
@@ -38,5 +37,4 @@ class Solution {
 
         return Arrays.toString(charCount);
     }
-
 }
