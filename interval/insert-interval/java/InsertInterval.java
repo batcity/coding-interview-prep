@@ -1,37 +1,41 @@
 // https://leetcode.com/problems/insert-interval/?envType=study-plan-v2&envId=top-interview-150
 
+// Time complexity: O(n) where n is the number of intervals
+// Space complexity: O(n) where n is the number of intervals
 class Solution {
     public int[][] insert(int[][] intervals, int[] newInterval) {
 
-        int[][] outputIntervals = new int[][intervals.length];
+        ArrayList<int[]> outputIntervals = new ArrayList<>();
+        boolean inserted = false;
+        int newIntervalStart = newInterval[0];
+        int newIntervalEnd = newInterval[1];
 
-        int prevIntervalStart = intervals[0][0];
-        int prevIntervalEnd = intervals[0][1];
+        for(int[] interval: intervals) {
 
-        for(int[] interval: intervals) {  
+            int currentIntervalStart = interval[0];
+            int currentIntervalEnd = interval[1];
 
-            int newIntervalStart = newInterval[1];
-            int newIntervalEnd = newInterval[1];
-            boolean insertionInProgress = false;
-
-            if(newIntervalStart < prevIntervalStart) {
-                prevIntervalStart = newIntervalStart;
-                insertionInProgress = true;
-            }
-
-            // what do I do here?
-            if(newIntervalStart < prevIntervalEnd) {
+            if(currentIntervalEnd < newIntervalStart) {
+                outputIntervals.add(interval);
+            } else if(currentIntervalStart > newIntervalEnd) {
                 
+                if(!inserted) {
+                    outputIntervals.add(new int[]{newIntervalStart, newIntervalEnd});
+                    inserted = true;
+                }
+
+                outputIntervals.add(interval);
+            } else {
+                newIntervalStart = Math.min(newIntervalStart, currentIntervalStart);
+                newIntervalEnd = Math.max(newIntervalEnd, currentIntervalEnd);
             }
 
-            if(newIntervalEnd > prevIntervalEnd) {
-                prevIntervalEnd = newIntervalEnd;
-            }
-
-            if(!insertionInProgress) {
-
-            }
         }
-        
+
+        if(!inserted) {
+            outputIntervals.add(new int[]{newIntervalStart, newIntervalEnd});
+        }
+
+        return outputIntervals.toArray(new int[outputIntervals.size()][]);
     }
 }
