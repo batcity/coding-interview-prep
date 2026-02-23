@@ -10,25 +10,37 @@ class Solution {
         while(index < path.length()) {
 
             char val = path.charAt(index);
-            index++;
+            index = index + 1;
+
+            System.out.println("current value is: " + val);
+            System.out.println("current index here: " + index);
 
             if(val == '.') {
 
-                if(outputDeque.peek()!= null && outputDeque.peek().equals("/")) {
+                if(outputDeque.peekLast()!= null && outputDeque.peekLast().equals("/")) {
                     continue;
+                }
+
+                if (index!=1) {
+                    System.out.println("inserting currString: " + currString);
+                    outputDeque.add(currString);
                 }
             }
 
             if(val == '/') {
 
-                if(outputDeque.peek()!= null && outputDeque.peek().equals("/")) {
-                    continue;
-                }
+                System.out.println("current value is a forward slash");
 
-                if (index!=1) {
+                if (index!=1 && currString.length()!=0) {
+                    System.out.println("inserting currString: " + currString);
                     outputDeque.add(currString);
                 }
 
+                if(outputDeque.peekLast()!= null && outputDeque.peekLast().equals("/")) {
+                    continue;
+                }
+
+                System.out.println("I'm adding a forward slash here");
                 outputDeque.add("/");
                 currString = "";
                 continue;
@@ -37,9 +49,8 @@ class Solution {
             currString = currString + val;
         }
 
-        if(outputDeque.peek().equals("/")) {
-            System.out.println("am i hitting this");
-            outputDeque.pop();
+        if(outputDeque.peekLast().equals("/")) {
+            outputDeque.removeLast();
         }
 
         return convertDequeToString(outputDeque);
