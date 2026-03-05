@@ -1,2 +1,2 @@
-# TODO: Fix this query
-select * from Users where mail REGEXP '^[a-zA-Z][0-9a-zA-Z_.-]*+@leetcode\\.com$'
+--- Leetcode problem: https://leetcode.com/problems/find-users-with-valid-e-mails/?envType=study-plan-v2&envId=top-sql-50
+SELECT * FROM Users WHERE REGEXP_LIKE(mail, '^[a-zA-Z][0-9a-zA-Z_.-]*@leetcode\\.com$', 'c');
