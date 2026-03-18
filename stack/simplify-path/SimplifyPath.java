@@ -12,8 +12,8 @@ class Solution {
             char val = path.charAt(index);
             index = index + 1;
 
-            System.out.println("current value is: " + val);
-            System.out.println("current index here: " + index);
+            // System.out.println("current value is: " + val);
+            // System.out.println("current index here: " + index);
 
             // my idea is to only insert things to the queue when I see a forward slash
             if(val == '/') {
@@ -24,11 +24,11 @@ class Solution {
                         currString = "";
                     } else if(currString.equals("..")) {
                         currString = "";
-                        System.out.println("removing last two insertions");
+                        // System.out.println("removing last two insertions");
                         outputDeque.pollLast();
                         outputDeque.pollLast();
                     } else {
-                        System.out.println("inserting currString: " + currString);
+                        // System.out.println("inserting currString: " + currString);
                         outputDeque.add(currString);
                     }
                 }
@@ -47,21 +47,36 @@ class Solution {
         }
 
         if(currString!="") {
-            outputDeque.add(currString);
+
+            if(currString.equals(".")) {
+                // do nothing
+            } else if(currString.equals("..")) {
+                outputDeque.pollLast();
+                outputDeque.pollLast();
+            } else {
+                outputDeque.add(currString);
+            }
         }
 
         if(outputDeque.peekLast()!=null && outputDeque.peekLast().equals("/") && outputDeque.size()!=1) {
             outputDeque.pollLast();
         }
 
-        return convertDequeToString(outputDeque);
+
+        String output = convertDequeToString(outputDeque);
+
+        if(output.length()!=0) {
+            return output;
+        }
+
+        return "/";
     }
 
     private String convertDequeToString(LinkedList<String> deque) {
         String output = "";
 
         for(String element: deque) {
-            System.out.println("current element is: " + element);
+            // System.out.println("current element is: " + element);
             output = output + element;
         }
 
