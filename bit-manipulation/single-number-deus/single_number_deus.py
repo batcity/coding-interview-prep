@@ -3,7 +3,9 @@
 class Solution:
     def singleNumber(self, nums: List[int]) -> int:
 
-        for index in range (0,31):
+        result = 0
+
+        for index in range (32):
 
             bit_sum = 0
             
@@ -22,3 +24,13 @@ class Solution:
                 print("bit", index , "from the number:", num , " is:")
                 bit = right_shifted_number & 1
                 print(bin(bit)[2:])
+
+                bit_sum = bit_sum + bit
+
+            result_bit = bit_sum % 3
+            result_bit = result_bit << index
+            # gotta figure out how to handle negative numbers
+            result = result | result_bit
+            print("This is the bit that should be returned in the result: ", result_bit)
+
+        return result
