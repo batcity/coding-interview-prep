@@ -5,6 +5,7 @@ class Solution {
 
         LinkedList<String> outputDeque = new LinkedList<>();
         int index = 0;
+        StringBuilder sb = new StringBuilder();
         String currString = "";
 
         while(index < path.length()) {
@@ -12,45 +13,38 @@ class Solution {
             char val = path.charAt(index);
             index = index + 1;
 
-            // System.out.println("current value is: " + val);
-            // System.out.println("current index here: " + index);
-
-            // my idea is to only insert things to the queue when I see a forward slash
             if(val == '/') {
 
-                if (index!=1 && currString.length()!=0) {
+                if (index!=1 && sb.length()!=0) {
 
-                    if(currString.equals(".")) {
-                        currString = "";
-                    } else if(currString.equals("..")) {
-                        currString = "";
-                        // System.out.println("removing last two insertions");
+                    currString = sb.toString();
+
+                    if(currString.equals("..")) {
+                        sb = new StringBuilder();
                         outputDeque.pollLast();
                         outputDeque.pollLast();
-                    } else {
-                        // System.out.println("inserting currString: " + currString);
+                    } else if(!currString.equals(".")){
                         outputDeque.add(currString);
                     }
                 }
+
+                sb = new StringBuilder();
 
                 if(outputDeque.peekLast()!= null && outputDeque.peekLast().equals("/")) {
                     continue;
                 }
 
-                // System.out.println("I'm adding a forward slash here");
                 outputDeque.add("/");
-                currString = "";
                 continue;
             }
 
-            currString = currString + val;
+            sb.append(val);
         }
 
-        if(currString!="") {
+        currString = sb.toString();
+        if(currString!="" && !currString.equals(".")) {
 
-            if(currString.equals(".")) {
-                // do nothing
-            } else if(currString.equals("..")) {
+            if(currString.equals("..")) {
                 outputDeque.pollLast();
                 outputDeque.pollLast();
             } else {
@@ -62,7 +56,6 @@ class Solution {
             outputDeque.pollLast();
         }
 
-
         String output = convertDequeToString(outputDeque);
 
         if(output.length()!=0) {
@@ -73,13 +66,12 @@ class Solution {
     }
 
     private String convertDequeToString(LinkedList<String> deque) {
-        String output = "";
+        StringBuilder sb = new StringBuilder();
 
         for(String element: deque) {
-            // System.out.println("current element is: " + element);
-            output = output + element;
+            sb.append(element);
         }
 
-        return output;
+        return sb.toString();
     }
 }
