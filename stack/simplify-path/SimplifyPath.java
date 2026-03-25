@@ -1,5 +1,10 @@
 // https://leetcode.com/problems/simplify-path/?envType=study-plan-v2&envId=top-interview-150
 
+// Time complexity = O(n) + O(k) where n is the number of characters in the path and k is the number of directories
+// Space complexity = O(n) where n is the number of characters in the string
+
+// Note: It might be cleaner to use path.split on "/" and then join directories with "/" appended -> so try that next time
+
 class Solution {
     public String simplifyPath(String path) {
 
@@ -42,7 +47,7 @@ class Solution {
         }
 
         currString = sb.toString();
-        if(currString!="" && !currString.equals(".")) {
+        if(!currString.isEmpty() && !currString.equals(".")) {
 
             if(currString.equals("..")) {
                 outputDeque.pollLast();
