@@ -1,5 +1,6 @@
 // https://leetcode.com/problems/partition-list/?envType=study-plan-v2&envId=top-interview-150
-
+// Time complexity: O(n) where n is the number of nodes in the LinkedList
+// Space complexity: O(1)
 
 /**
  * Definition for singly-linked list.
@@ -14,47 +15,31 @@
 class Solution {
     public ListNode partition(ListNode head, int x) {
 
-        ListNode before = null;
-        ListNode after = null;
 
-        ListNode currBefore = null;
-        ListNode currAfter = null;
+        ListNode beforeHead = new ListNode(0);
+        ListNode afterHead = new ListNode(0);
+
+        ListNode before = beforeHead;
+        ListNode after = afterHead;
 
         while(head!=null) {
 
             if(head.val < x) {
 
-                if(before == null) {
-                    before = head;
-                    currBefore = head;
-                    before.next = null;
-                } else {
-                    currBefore.next = head;
-                    currBefore = head;
-                }
+                before.next = head;
+                before = before.next;
             } else {
-                if(after == null) {
-                    after = head;
-                    currAfter = head;
-                    after.next = null;
-                } else {
-                    currAfter.next = head;
-                    currAfter = head;
-                }
+
+                after.next = head;
+                after = after.next;
             }
 
             head = head.next;
         }
 
-        if(before == null) {
-            return after;
-        }
+        after.next = null;
+        before.next = afterHead.next;
 
-        if(after!=null) {
-            currBefore.next = after;
-            return before;
-        }
-
-        return before;
+        return beforeHead.next;
     }
 }
