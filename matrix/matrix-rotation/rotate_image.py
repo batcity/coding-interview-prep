@@ -13,8 +13,6 @@ class Solution:
     def convert_columns_to_rows(self, matrix: List[List[int]]):
 
         size = len(matrix)
-
-        # Create a size x size matrix of False values
         # WAIT, I can't use another matrix
         # so the trick is to only swap elements in the upper right triangle
 

@@ -1,4 +1,5 @@
 // https://leetcode.com/problems/binary-tree-right-side-view/?envType=study-plan-v2&envId=top-interview-150
+// Time complexity = O(n)
 
 /**
  * Definition for a binary tree node.
@@ -26,6 +27,8 @@ class Solution {
         
         LinkedList<TreeNode> queue = new LinkedList<>();
         var output = new ArrayList<Integer>();
+        if(root == null) return output;
+
         queue.add(root);
 
         while(queue.size()!=0) {
@@ -38,24 +41,13 @@ class Solution {
                 TreeNode currNode = queue.poll();
                 currLevelLength--;
 
-                if(currNode!=null) {
-                    rightMostElement = currNode.val;
-                } else {
-                    continue;
-                }
+                rightMostElement = currNode.val;
 
-                if(currNode.left!=null) {
-                    queue.add(currNode.left);
-                }
-
-                if(currNode.right!=null) {
-                    queue.add(currNode.right);
-                }
+                if(currNode.left!=null) queue.add(currNode.left);
+                if(currNode.right!=null) queue.add(currNode.right);
             }
 
-            if(rightMostElement!=null) {
-                output.add(rightMostElement);
-            }
+            output.add(rightMostElement);
         }
 
         return output;
