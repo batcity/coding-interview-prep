@@ -1,5 +1,6 @@
 // https://leetcode.com/problems/binary-tree-right-side-view/?envType=study-plan-v2&envId=top-interview-150
 // Time complexity = O(n)
+// Space complexity = O(n)
 
 /**
  * Definition for a binary tree node.
