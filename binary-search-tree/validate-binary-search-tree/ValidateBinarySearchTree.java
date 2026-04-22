@@ -1,4 +1,6 @@
 // https://leetcode.com/problems/validate-binary-search-tree/?envType=study-plan-v2&envId=top-interview-150
+// Time complexity: O(N)
+// Space complexity: O(H) - this is the recursion stack
 
 /**
  * Definition for a binary tree node.
@@ -16,25 +18,18 @@
  * }
  */
 class Solution {
+
     public boolean isValidBST(TreeNode root) {
 
-        return inOrderTraversal(root, null);
+        return isValid(root, Long.MIN_VALUE, Long.MAX_VALUE);
     }
 
-    private boolean inOrderTraversal(TreeNode root, TreeNode prev) {
+    public boolean isValid(TreeNode root, Long min, Long max) {
 
-        if(root == null) return true;
+        if(root==null) return true;
 
-        if(prev!=null && prev.val>=root.val) return false;
+        if(root.val<=min || root.val>=max) return false;
 
-        boolean isLeftSubtreeValid = inOrderTraversal(root.left, prev);
-        prev = root;
-        boolean isRightSubtreeValid = inOrderTraversal(root.right, prev);
-
-        if(isLeftSubtreeValid && isRightSubtreeValid) {
-            return true;
-        }
-
-        return false;
+        return isValid(root.left, min, Long.valueOf(root.val)) && isValid(root.right, Long.valueOf(root.val), max);
     }
 }
