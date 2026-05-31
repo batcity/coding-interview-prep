@@ -2,7 +2,10 @@
 // Time complexity: (4 ^ N) * N where N is the number of characters in the given startGene
 // Space complexity: (4 ^ N) * N where N is the number of characters in the given startGene
 
-// TODO: looks like time and space complexity is off and BFS might be a better solution to this problem, so optimize this
+// TODO: looks like time and space complexity is off, fix that. Also I'm currently working on the BFS solution for this
+
+import java.util.LinkedList;
+import java.util.Queue;
 
 class Solution {
 
@@ -11,44 +14,46 @@ class Solution {
     public int minMutation(String startGene, String endGene, String[] bank) {
 
         HashSet<String> bankSet = new HashSet<>();
-        HashSet<String> visited = new HashSet<>();
         for(String gene: bank) bankSet.add(gene);
 
         var startGeneArray = startGene.toCharArray();
         var endGeneArray = endGene.toCharArray();
-        findMinMutation(startGeneArray, endGeneArray, bankSet, visited, 0);
-
-        if(minGeneticMutations<Integer.MAX_VALUE) return minGeneticMutations;
-
-        return -1;
+        return findMinMutation(startGeneArray, endGeneArray, bankSet);
     }
 
-    private void findMinMutation(char[] startGeneArray, char[] endGeneArray, HashSet<String> bankSet, HashSet<String> visited, int depth) {
+    private int findMinMutation(char[] startGeneArray, char[] endGeneArray, HashSet<String> bankSet) {
 
-        String currStartGene = String.valueOf(startGeneArray);
-        if(depth>0 && !bankSet.contains(currStartGene)) return;
-
-        if(Arrays.equals(startGeneArray, endGeneArray)) {
-            if(depth < minGeneticMutations) minGeneticMutations = depth;
-            return;
-        }
-        
-        if(visited.contains(currStartGene)) return;
-        visited.add(currStartGene);
-
-        int index = 0;
+        int depth = 0;
+        int currDepthQueueCount = 1;
+        Queue<char[]> currQueue = new LinkedList<>();
+        currQueue.add(startGeneArray);
         char[] charSet = {'A', 'C', 'G', 'T'};
+        int index = 0;
 
-        while(index < startGeneArray.length) {
+        while(!currQueue.isEmpty()) {
 
-            for(char letter: charSet) {
-                char temp = startGeneArray[index];
-                startGeneArray[index] = letter;
-                findMinMutation(startGeneArray, endGeneArray, bankSet, visited, depth+1);
-                startGeneArray[index] = temp;
+            while(currDepthQueueCount>0) {
+
+                char[] currGeneArray = currQueue.poll();
+
+                if(Arrays.equals(currGeneArray, endGeneArray)) {
+                    return depth;
+                }
+i
+                for(char letter: charSet) {
+                    char temp = startGeneArray[index];
+                    currGeneArray[index] = letter;
+                    String currStartGene = String.valueOf(startGeneArray);
+                    if(bankSet.contains(currStartGene)) currQueue.add(currGeneArray);
+                    currGeneArray[index] = temp;
+                }
+
+                currDepthQueueCount--;
             }
 
-            index++;
+            currDepthQueueCount = index;
         }
+
+        return -1;
     }
 }
