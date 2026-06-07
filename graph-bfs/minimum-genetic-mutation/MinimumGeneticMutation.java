@@ -2,7 +2,7 @@
 // Time complexity: (4 ^ N) * N where N is the number of characters in the given startGene
 // Space complexity: (4 ^ N) * N where N is the number of characters in the given startGene
 
-// TODO: looks like time and space complexity is off, fix that. Also this bfs solution works but is slower than my original dfs one, so figure out why
+// TODO: looks like time and space complexity is off, fix that. Also make this code cleaner
 
 import java.util.LinkedList;
 import java.util.Queue;
@@ -13,29 +13,26 @@ class Solution {
 
     public int minMutation(String startGene, String endGene, String[] bank) {
 
-        HashSet<String> bankSet = new HashSet<>();
-        for(String gene: bank) bankSet.add(gene);
-
-        var startGeneArray = startGene.toCharArray();
-        var endGeneArray = endGene.toCharArray();
-        return findMinMutation(startGeneArray, endGeneArray, bankSet);
+        HashSet<String> univistedBankSet = new HashSet<>(List.of(bank));
+        return findMinMutation(startGene, endGene, univistedBankSet);
     }
 
-    private int findMinMutation(char[] startGeneArray, char[] endGeneArray, HashSet<String> bankSet) {
+    private int findMinMutation(String startGene, String endGene, HashSet<String> univistedBankSet) {
 
         int depth = 0;
         int currDepthQueueCount = 1;
-        Queue<char[]> currQueue = new LinkedList<>();
-        currQueue.add(startGeneArray);
+        Queue<String> currQueue = new LinkedList<>(List.of(startGene));
         char[] charSet = {'A', 'C', 'G', 'T'};
-        HashSet<String> visited = new HashSet<>();
+
+        univistedBankSet.remove(startGene);
 
         while(!currQueue.isEmpty()) {
 
             while(currDepthQueueCount>0) {
 
-                char[] currGeneArray = currQueue.poll();
-                if(Arrays.equals(currGeneArray, endGeneArray)) return depth;
+                String currGene = currQueue.poll();
+                if(currGene.equals(endGene)) return depth;
+                char[] currGeneArray = currGene.toCharArray();
 
                 int index = 0;
 
@@ -45,12 +42,10 @@ class Solution {
                         char temp = currGeneArray[index];
                         currGeneArray[index] = letter;
                         String currStartGene = String.valueOf(currGeneArray);
-                        if(visited.contains(currStartGene)) {
-                            currGeneArray[index] = temp;
-                            continue;
+                        if (univistedBankSet.contains(currStartGene)) {
+                            currQueue.add(currStartGene);
+                            univistedBankSet.remove(currStartGene);
                         }
-                        if(bankSet.contains(currStartGene)) currQueue.add(currGeneArray.clone());
-                        visited.add(currStartGene);
                         currGeneArray[index] = temp;
                     }
 
