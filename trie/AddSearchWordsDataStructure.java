@@ -1,7 +1,5 @@
 // https://leetcode.com/problems/design-add-and-search-words-data-structure/?envType=study-plan-v2&envId=top-interview-150
 
-import java.util.*;
-
 class WordDictionary {
 
     private Node root;
@@ -30,6 +28,7 @@ class WordDictionary {
             } else {
                 Node newNode = new Node(letter, new HashMap<Character, Node>());
                 currentNode.children.put(letter, newNode);
+                currentNode = newNode;
             }
         }
     }
@@ -38,12 +37,22 @@ class WordDictionary {
         Node currentNode = root;
 
         for(char letter: word.toCharArray()) {
-            searchChildren();
+            currentNode = searchChildren(currentNode, letter);
+
+
+            if(currentNode == null) return false;
         }
+
+        return true;
     }
 
-    private boolean searchChildren(Node node, character val) {
+    private Node searchChildren(Node node, Character val) {
+        
+        if(node.children.containsKey(val)) {
+            return node.children.get(val);
+        }
 
+        return null;
     }
 }
 
