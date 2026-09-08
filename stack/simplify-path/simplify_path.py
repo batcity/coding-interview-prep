@@ -4,25 +4,13 @@ class Solution:
     def simplifyPath(self, path: str) -> str:
         
         outputStack = []
-        currOutput = ""
 
-        for symbol in path:
-            if symbol == '/':
-                self.insert_symbol(currOutput, outputStack)
-                currOutput = ""
-                continue
-            else:
-                currOutput += symbol
 
-        if currOutput: self.insert_symbol(currOutput, outputStack)
+        for portion in path.split("/"):
+            if portion == "..":
+                if outputStack:
+                    outputStack.pop()
+            elif portion not in ("", "."):
+                outputStack.append(portion)
 
         return "/" + "/".join(outputStack)
-
-    def insert_symbol(self, currOutput: str, outputStack: []):
-        if currOutput != "":       
-            if currOutput == ".":
-                currOutput = ""
-            elif currOutput == "..":
-                currOutput = ""
-                if outputStack: outputStack.pop()
-            else: outputStack.append(currOutput)      
