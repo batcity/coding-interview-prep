@@ -34,25 +34,37 @@ class WordDictionary {
     }
     
     public boolean search(String word) {
-        Node currentNode = root;
+        List<Node> nodesToSearch = List.of(root);
 
         for(char letter: word.toCharArray()) {
-            currentNode = searchChildren(currentNode, letter);
 
+            if(letter == '.') {
+                nodesToSearch = new ArrayList<Node>();
 
-            if(currentNode == null) return false;
+                for(Node node: nodesToSearch) {
+                    nodesToSearch.addAll(node.children.values());
+                }
+
+                continue;
+            }
+
+            nodesToSearch = searchChildren(nodesToSearch, letter);
+
+            if(nodesToSearch.size()==0) return false;
         }
 
         return true;
     }
 
-    private Node searchChildren(Node node, Character val) {
+    private List<Node> searchChildren(List<Node> nodesToSearch, Character val) {
         
-        if(node.children.containsKey(val)) {
-            return node.children.get(val);
+        for(Node node: nodesToSearch) {
+            if(node.children.containsKey(val)) {
+                return List.of(node.children.get(val));
+            }
         }
 
-        return null;
+        return List.of();
     }
 }
 
