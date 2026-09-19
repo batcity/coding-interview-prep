@@ -39,11 +39,14 @@ class WordDictionary {
         for(char letter: word.toCharArray()) {
 
             if(letter == '.') {
-                nodesToSearch = new ArrayList<Node>();
+
+                var newNodesToSearch = new ArrayList<Node>();
 
                 for(Node node: nodesToSearch) {
-                    nodesToSearch.addAll(node.children.values());
+                    newNodesToSearch.addAll(node.children.values());
                 }
+
+                nodesToSearch = newNodesToSearch;
 
                 continue;
             }
@@ -52,6 +55,10 @@ class WordDictionary {
 
             if(nodesToSearch.size()==0) return false;
         }
+
+        if(nodesToSearch.size()==0) return false;
+        Node currentNode = nodesToSearch.get(0);
+        if(currentNode.children.values().size()!=0) return false;
 
         return true;
     }
