@@ -3,28 +3,30 @@
 #     def __init__(self, val=0, next=None):
 #         self.val = val
 #         self.next = next
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
 class Solution:
     def partition(self, head: ListNode | None, x: int) -> ListNode | None:
+
         firstHalfRoot = ListNode()
         secondHalfRoot = ListNode()
 
         firstHalfNode = firstHalfRoot
         secondHalfNode = secondHalfRoot
 
-        root = head
+        while(head is not None):
 
-        while(root is not None):
-
-            print("entering the loop")
-
-            if root.val < x:
-                firstHalfNode.next = root
+            if head.val < x:
+                firstHalfNode.next = ListNode(head.val, head.next)
                 firstHalfNode = firstHalfNode.next
             else:
-                secondHalfNode.next = root
+                secondHalfNode.next = ListNode(head.val, head.next)
                 secondHalfNode = secondHalfNode.next
 
-            root = root.next
+            head = head.next
 
         firstHalfNode.next = secondHalfRoot.next
 
