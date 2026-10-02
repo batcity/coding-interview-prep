@@ -7,6 +7,7 @@ class WordDictionary {
 
         Character val;
         HashMap<Character, Node> children;
+        boolean wordEnd;
 
         public Node(Character val, HashMap<Character, Node> children) {
             this.val = val;
@@ -31,6 +32,8 @@ class WordDictionary {
                 currentNode = newNode;
             }
         }
+
+        currentNode.wordEnd = true;
     }
     
     public boolean search(String word) {
@@ -58,7 +61,7 @@ class WordDictionary {
 
         if(nodesToSearch.size()==0) return false;
         Node currentNode = nodesToSearch.get(0);
-        if(currentNode.children.values().size()!=0) return false;
+        if(!currentNode.wordEnd) return false;
 
         return true;
     }
