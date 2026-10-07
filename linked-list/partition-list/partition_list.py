@@ -1,8 +1,6 @@
-# Definition for singly-linked list.
-# class ListNode:
-#     def __init__(self, val=0, next=None):
-#         self.val = val
-#         self.next = next
+# Time complexity: O(N) where N is the number of nodes in the original list
+# Space complexity: O(1), this solution doesn't use any additional space
+
 # Definition for singly-linked list.
 # class ListNode:
 #     def __init__(self, val=0, next=None):
@@ -20,14 +18,15 @@ class Solution:
         while(head is not None):
 
             if head.val < x:
-                firstHalfNode.next = ListNode(head.val, head.next)
+                firstHalfNode.next = head
                 firstHalfNode = firstHalfNode.next
             else:
-                secondHalfNode.next = ListNode(head.val, head.next)
+                secondHalfNode.next = head
                 secondHalfNode = secondHalfNode.next
 
             head = head.next
 
+        secondHalfNode.next = None
         firstHalfNode.next = secondHalfRoot.next
 
         return firstHalfRoot.next
