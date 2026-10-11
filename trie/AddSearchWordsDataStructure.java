@@ -5,18 +5,12 @@ class WordDictionary {
     private Node root;
     private class Node {
 
-        Character val;
         HashMap<Character, Node> children;
-        boolean wordEnd;
-
-        public Node(Character val, HashMap<Character, Node> children) {
-            this.val = val;
-            this.children = children;
-        }
+        boolean wordEnd = false;
     }
 
     public WordDictionary() {
-        this.root = new Node(null, new HashMap<Character, Node>());
+        this.root = new Node();
     }
     
     public void addWord(String word) {
