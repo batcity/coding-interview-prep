@@ -21,7 +21,7 @@ class WordDictionary {
             if(currentNode.children.keySet().contains(letter)) {
                 currentNode = currentNode.children.get(letter);
             } else {
-                Node newNode = new Node(letter, new HashMap<Character, Node>());
+                Node newNode = new Node();
                 currentNode.children.put(letter, newNode);
                 currentNode = newNode;
             }
@@ -31,33 +31,33 @@ class WordDictionary {
     }
     
     public boolean search(String word) {
-        List<Node> nodesToSearch = List.of(root);
+        return dfs(word, 0, root);
+    }
 
-        for(char letter: word.toCharArray()) {
+    private boolean dfs(String word, int depth, Node node) {
 
-            if(letter == '.') {
+        int len = word.length();
+        if(depth >= len) return false;
+        depth = depth + 1;
+        letter = word.charAt(depth);
 
-                var newNodesToSearch = new ArrayList<Node>();
+        if(letter == '.') {
 
-                for(Node node: nodesToSearch) {
-                    newNodesToSearch.addAll(node.children.values());
-                }
+            boolean returnVal = false;
 
-                nodesToSearch = newNodesToSearch;
-
-                continue;
+            for(Node childNode: node.children) {
+                returnVal = returnVal || dfs(word, depth, childNode);
             }
 
-            nodesToSearch = searchChildren(nodesToSearch, letter);
-
-            if(nodesToSearch.size()==0) return false;
+            return returnVal;
         }
 
-        if(nodesToSearch.size()==0) return false;
-        Node currentNode = nodesToSearch.get(0);
-        if(!currentNode.wordEnd) return false;
-
-        return true;
+        
+        boolean returnVal = false;
+        for(Node childNode: node.children) {
+            if(childNode.val == letter) returnVal = returnVal || dfs(childNode);
+        }
+        return returnVal.wordEnd;
     }
 
     private List<Node> searchChildren(List<Node> nodesToSearch, Character val) {
