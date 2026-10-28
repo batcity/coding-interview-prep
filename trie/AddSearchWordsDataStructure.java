@@ -35,40 +35,35 @@ class WordDictionary {
     }
 
     private boolean dfs(String word, int depth, Node node) {
-
+        
         int len = word.length();
+        // Base case
         if(depth >= len) return false;
+
+        char letter = word.charAt(depth);
         depth = depth + 1;
-        letter = word.charAt(depth);
+        boolean returnVal = false;
 
         if(letter == '.') {
 
-            boolean returnVal = false;
-
-            for(Node childNode: node.children) {
+            for(Node childNode: node.children.values()) {
                 returnVal = returnVal || dfs(word, depth, childNode);
+                if(returnVal) return true;
             }
 
-            return returnVal;
+            return false;
         }
 
-        
-        boolean returnVal = false;
-        for(Node childNode: node.children) {
-            if(childNode.val == letter) returnVal = returnVal || dfs(childNode);
-        }
-        return returnVal.wordEnd;
-    }
+        for(Node childNode: node.children.values()) {
+            if(childNode.val == letter) {
 
-    private List<Node> searchChildren(List<Node> nodesToSearch, Character val) {
-        
-        for(Node node: nodesToSearch) {
-            if(node.children.containsKey(val)) {
-                return List.of(node.children.get(val));
+                if(depth == len && childNode.wordEnd) { return true;}
+                returnVal = dfs(childNode);
             }
+            if(returnVal) return true;
         }
 
-        return List.of();
+        return false;
     }
 }
 
