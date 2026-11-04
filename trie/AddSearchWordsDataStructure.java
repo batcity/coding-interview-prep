@@ -5,7 +5,7 @@ class WordDictionary {
     private Node root;
     private class Node {
 
-        HashMap<Character, Node> children;
+        HashMap<Character, Node> children = new HashMap<>();
         boolean wordEnd = false;
     }
 
@@ -45,23 +45,20 @@ class WordDictionary {
         boolean returnVal = false;
 
         if(letter == '.') {
-
             for(Node childNode: node.children.values()) {
                 returnVal = returnVal || dfs(word, depth, childNode);
                 if(returnVal) return true;
             }
-
+        
             return false;
         }
 
-        for(Node childNode: node.children.values()) {
-            if(childNode.val == letter) {
-
-                if(depth == len && childNode.wordEnd) { return true;}
-                returnVal = dfs(childNode);
-            }
-            if(returnVal) return true;
+        if(node.children.keySet().contains(letter)) {
+            Node childNode = node.children.get(letter);
+            if(depth == len && childNode.wordEnd) { return true;}
+            returnVal = dfs(word, depth, childNode);
         }
+        if(returnVal) return true;
 
         return false;
     }
