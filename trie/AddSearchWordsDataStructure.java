@@ -1,4 +1,5 @@
 // https://leetcode.com/problems/design-add-and-search-words-data-structure/?envType=study-plan-v2&envId=top-interview-150
+// TODO: optimize this
 
 class WordDictionary {
 
@@ -41,26 +42,24 @@ class WordDictionary {
         if(depth >= len) return false;
 
         char letter = word.charAt(depth);
+        // IO.println("current letter I'm looking at: " + letter);
         depth = depth + 1;
         boolean returnVal = false;
 
         if(letter == '.') {
             for(Node childNode: node.children.values()) {
-                returnVal = returnVal || dfs(word, depth, childNode);
-                if(returnVal) return true;
-            }
-        
-            return false;
-        }
 
-        if(node.children.keySet().contains(letter)) {
+                if(depth == len && childNode.wordEnd) { return true;}
+
+                if(dfs(word, depth, childNode)) { return true;}
+            }
+        } else if(node.children.keySet().contains(letter)) {
             Node childNode = node.children.get(letter);
             if(depth == len && childNode.wordEnd) { return true;}
             returnVal = dfs(word, depth, childNode);
         }
-        if(returnVal) return true;
 
-        return false;
+        return returnVal;
     }
 }
 
